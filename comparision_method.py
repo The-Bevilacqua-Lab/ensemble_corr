@@ -1,3 +1,5 @@
+#!/usr/bin/env python
+
 ################################################################################
 # Compute the pearson correlation between two base-pairing
 # probibility matricies from RNA structure 
@@ -5,12 +7,9 @@
 # Author - Kobie Kirven 
 ################################################################################
 
-#!/usr/bin/env python3
 
 # Imports
 import argparse
-import subprocess
-import tempfile
 import numpy as np 
 import math
 import scipy.stats as st
