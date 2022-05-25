@@ -18,8 +18,8 @@ import scipy.stats as st
 # Add the command-line arguments
 argparser = argparse.ArgumentParser(description='Compute the pearson correlation betwen two base-pairing probibility matricies from RNA structure')
 argparser.add_argument('-1', '--file1', help='BP File 1', 
-dest="seq1", required=True)
-argparser.add_argument('-2', '--file2', help='BP File 2', dest="seq2", required=True)
+dest="file1", required=True)
+argparser.add_argument('-2', '--file2', help='BP File 2', dest="file1", required=True)
 argparser.add_argument('-c', '--comp', help="Comparison method: pearson, pearson-not-sum, rmsd", dest="comp", required=True)
 args = argparser.parse_args()
 
