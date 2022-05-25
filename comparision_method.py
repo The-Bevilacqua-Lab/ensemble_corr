@@ -18,7 +18,7 @@ import scipy.stats as st
 argparser = argparse.ArgumentParser(description='Compute the pearson correlation betwen two base-pairing probibility matricies from RNA structure')
 argparser.add_argument('-1', '--file1', help='BP File 1', 
 dest="file1", required=True)
-argparser.add_argument('-2', '--file2', help='BP File 2', dest="file1", required=True)
+argparser.add_argument('-2', '--file2', help='BP File 2', dest="file2", required=True)
 argparser.add_argument('-c', '--comp', help="Comparison method: pearson, pearson-not-sum, rmsd", dest="comp", required=True)
 args = argparser.parse_args()
 
@@ -39,9 +39,9 @@ def turn_propibility_plot_to_matrix(fileName):
     # Read the file
     with open(fileName) as fn:
         lines = fn.readlines()
-        matrix = np.zeros(int(lines[0].strip("\n")), int(lines[0].strip("\n")))
+        matrix = np.zeros((int(lines[0].strip("\n")), int(lines[0].strip("\n"))))
         for line in lines[2:]:
-            line = line.strip("\n").split(" ")
+            line = line.strip("\n").split("\t")
             matrix[int(line[0])-1, int(line[1])-1] = math.pow(10, -1 * float(line[2]))
         return matrix 
 
@@ -57,7 +57,7 @@ def get_proibilites(fileName):
     probs = []
 
     for line in lines[2:]:
-        line = line.strip("\n").split(" ")
+        line = line.strip("\n").split("\t")
         base_pairs.append([int(line[0]), int(line[1])]) 
         probs.append(math.pow(10, -1 * float(line[2])))
 
@@ -80,12 +80,15 @@ def pearson_not_sum(probs1, probs2):
     # Compute the pearson correlation of the bpp vectors
     return st.pearsonr(probs1, probs2)[0]
 
-def compute_rmsd(probs1, probs2):
+def compute_rmsd(pr1, pr2):
     """
     Compute the rmsd between the two bpp matricies
     """
+    diffs = []
     # Compute the rmsd of the bpp matricies
-    return np.sqrt(np.sum((probs1 - probs2)**2)/len(probs1))
+    for i in range(len(pr1)):
+        diffs.append((pr1[i] - pr2[i])**2)
+    return np.sqrt(sum(diffs)/len(pr1))
    
 
 
@@ -102,9 +105,9 @@ if __name__ == "__main__":
         print(compute_pearson_corr(matrix1, matrix2))
     
     if args.comp == "pearson-not-sum":
-        print(pearson_not_sum(probs1, probs2))
+        print(pearson_not_sum(probs1[1], probs2[1]))
     
     if args.comp == "rmsd":
-        print(compute_rmsd(probs1, probs2))
+        print(compute_rmsd(probs1[1], probs2[1]))
     
 
