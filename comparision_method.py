@@ -91,10 +91,11 @@ def compute_rmsd(probs1, probs2):
 
 # Run the tool
 if __name__ == "__main__":
-    matrix1 = get_bpp_matrix(args.singularity, args.seq1, tmpdirname)
+    matrix1 = get_bpp_matrix(args.file1)
+    matrix2 = get_bpp_matrix(args.file2)
 
-    probs1 = get_proibilites(args.file1)
-    probs2 = get_proibilites(args.file2)
+    probs1 = turn_propibility_plot_to_matrix(args.file1)
+    probs2 = turn_propibility_plot_to_matrix(args.file2)
 
     # Compute the pearson correlation
     if args.comp == "pearson":
